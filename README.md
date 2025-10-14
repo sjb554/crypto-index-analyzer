@@ -17,39 +17,31 @@ Python-based toolkit that ranks the leading cryptocurrencies each week using a c
 - `src/crypto_index_analyzer/` - source package containing configuration loading, data collection, scoring, reporting, and the CLI entry point.
 - `.github/workflows/update.yml` - weekly GitHub Actions pipeline that regenerates the report and pushes changes.
 
-## Getting Started Locally
-1. Create and activate a virtual environment (optional but recommended):
-   ```powershell
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-   ```
-2. Install dependencies:
-   ```powershell
-   pip install -r requirements.txt
-   ```
-3. Run the analyser (ensure `src` is on `PYTHONPATH` or run from repository root):
-   ```powershell
-   $env:PYTHONPATH = 'src'
-   python -m crypto_index_analyzer.run --output reports/crypto_index.md
-   ```
+## Usage & Configuration
 
-If CoinGecko rate limits your IP, set `COINGECKO_API_KEY` in your shell or repository secrets before rerunning.
+### Automated Updates (GitHub Actions)
+The repository ships with a scheduled workflow that runs every Monday at 12:00 UTC. It checks out the code, installs dependencies, executes the analyser, and commits a refreshed `reports/crypto_index.md` whenever data changes. Add repository secrets for `COINGECKO_API_KEY` (optional, for higher rate limits) and rely on the built-in `GITHUB_TOKEN` or your own PAT so the workflow can authenticate with CoinGecko and push back to GitHub.
 
-## Configuration
-Edit `config.yaml` to adjust metric weights, number of coins analysed, or reporting scope:
-- `weights`: must sum to 1.0; increase `developer_activity` to favour GitHub engagement or reduce `volatility` to penalise choppy assets.
-- `settings.top_n`: number of assets surfaced in the Markdown report (5-10 recommended).
-- `settings.coins_limit`: number of coins fetched from CoinGecko (defaults to 40).
-- `settings.days_for_trend`: lookback window for volume and volatility calculations (default 30).
+### Manual Refresh via CLI
+Run the pipeline locally from the repo root:
+```powershell
+$env:PYTHONPATH = 'src'
+python -m crypto_index_analyzer.run --config config.yaml --output reports/crypto_index.md
+```
+This uses the same configuration file as the workflow, making local dry-runs and automated runs consistent.
 
-Changes take effect the next time you run the CLI or GitHub Actions workflow.
+### Default Behaviour & Rate Limits
+By default the analyser pulls the top 40 assets from CoinGecko's free tier. Requests are throttled with a 2-3 second delay per coin so full executions finish in a few minutes without exceeding public rate limits.
 
-## Automation via GitHub Actions
-The scheduled workflow runs every Monday at 12:00 UTC (and can be triggered manually). Configure repository secrets for best results:
-- `COINGECKO_API_KEY` (optional but recommended to avoid public rate limits).
-- `GH_TOKEN` or rely on the default `GITHUB_TOKEN` for authenticated GitHub API calls.
+### Customising `config.yaml`
+Tune the index by editing `config.yaml`:
+- `weights` - adjust the weighting of market, liquidity, risk, developer, and on-chain signals (must sum to 1.0).
+- `settings.top_n` - number of assets highlighted in the final report (recommend 5-10).
+- `settings.coins_limit` - number of coins fetched from CoinGecko (keep <=40 for the free tier).
+- `settings.days_for_trend` - window (days) used for volume and volatility calculations.
 
-The workflow installs dependencies, executes the analyser, and commits `reports/crypto_index.md` if the file changed.
+### Optional: Paid API Key for Faster Refreshes
+If you have a CoinGecko Pro key, store it in the `COINGECKO_API_KEY` secret (or export it locally) and consider bumping `settings.coins_limit` or reducing the per-coin delay inside `src/crypto_index_analyzer/data_sources.py` to speed up runs.
 
 ## Methodology Notes
 - **Market cap growth** compares the first and last market-cap observations across the configured lookback window.
@@ -61,9 +53,14 @@ The workflow installs dependencies, executes the analyser, and commits `reports/
 Each metric is normalised across the analysed cohort and combined by the weights in `config.yaml`. Missing data defaults to neutral values after normalisation.
 
 ## Troubleshooting
-- **CoinGecko 429 rate limit**: wait a few minutes or supply a paid API key via `COINGECKO_API_KEY` (locally or as a GitHub secret).
-- **GitHub API limits**: the built-in `GITHUB_TOKEN` normally suffices; provide a personal access token if you observe 403 responses.
-- **Empty report**: ensure the APIs are reachable and that `settings.coins_limit` is not lower than `settings.top_n`.
+- **CoinGecko 429 rate limit** - wait a few minutes or supply a paid API key via `COINGECKO_API_KEY`.
+- **GitHub API limits** - the built-in `GITHUB_TOKEN` normally suffices; provide a personal access token if you observe 403 responses.
+- **Empty report** - ensure the APIs are reachable and that `settings.coins_limit` is not lower than `settings.top_n`.
+
+## Next Steps
+- Experiment with alternative metric weights to emphasise development activity, liquidity, or stability.
+- Add new data sources (on-chain analytics, sentiment feeds) and extend the scoring model.
+- Archive weekly reports to visualise trends or publish the index externally.
 
 ## License
 This project is delivered without a specific licence; add one if redistribution is required.
