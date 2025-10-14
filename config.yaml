@@ -1,0 +1,11 @@
+weights:
+  market_cap_growth: 0.30
+  volume_trend: 0.25
+  volatility: 0.15
+  developer_activity: 0.20
+  on_chain: 0.10
+settings:
+  top_n: 10
+  coins_limit: 50
+  base_currency: usd
+  days_for_trend: 30
