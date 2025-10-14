@@ -6,6 +6,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .config_loader import ConfigError, load_config
+from .dashboard import (
+    append_history,
+    build_snapshot,
+    load_snapshot,
+    rankings_changed,
+    render_dashboard,
+    render_score_chart,
+    write_snapshot,
+)
 from .data_sources import DataSourceError, collect_metrics
 from .reporting import write_markdown_report
 from .scoring import score_coins
@@ -24,6 +33,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Optional path for the generated Markdown report (defaults to reports/crypto_index.md).",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force artifact regeneration even if rankings have not changed.",
     )
     return parser
 
@@ -54,8 +68,27 @@ def main(argv: list[str] | None = None) -> int:
         return 5
 
     top_n = scored[: config.settings.top_n]
-    output_path = args.output or Path(__file__).resolve().parents[2] / "reports/crypto_index.md"
+    repo_root = Path(__file__).resolve().parents[2]
+    reports_dir = repo_root / "reports"
+    docs_dir = repo_root / "docs"
+    docs_data_dir = docs_dir / "data"
+    chart_rel_path = Path("assets/score_trend.png")
+    chart_path = docs_dir / chart_rel_path
+
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    docs_data_dir.mkdir(parents=True, exist_ok=True)
+
     timestamp = datetime.now(timezone.utc)
+    snapshot = build_snapshot(top_n, config.settings.base_currency, timestamp)
+
+    snapshot_path = reports_dir / "crypto_index.json"
+    previous_snapshot = load_snapshot(snapshot_path)
+    if not args.force and not rankings_changed(previous_snapshot, snapshot):
+        print("No ranking changes detected; skipping artifact updates.")
+        return 0
+
+    output_path = args.output or reports_dir / "crypto_index.md"
     write_markdown_report(
         top_n,
         output_path=output_path,
@@ -63,8 +96,17 @@ def main(argv: list[str] | None = None) -> int:
         generated_at=timestamp,
     )
 
-    rel_output = output_path.resolve()
-    print(f"Report written to {rel_output}")
+    write_snapshot(snapshot_path, snapshot)
+    write_snapshot(docs_data_dir / "crypto_index.json", snapshot)
+    history_path = reports_dir / "crypto_index_history.csv"
+    append_history(history_path, snapshot)
+    render_score_chart(history_path, chart_path)
+    dashboard_path = docs_dir / "index.html"
+    render_dashboard(snapshot, chart_rel_path, dashboard_path)
+
+    print(f"Report written to {output_path.resolve()}")
+    print(f"Snapshot saved to {snapshot_path.resolve()}")
+    print(f"Dashboard updated at {dashboard_path.resolve()}")
     return 0
 
 

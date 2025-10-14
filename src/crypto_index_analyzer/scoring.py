@@ -83,7 +83,7 @@ def score_coins(coins: List[CoinMetrics], weights: WeightConfig) -> List[ScoredC
                 composite_score=composite,
                 normalized_metrics=metric_scores,
                 raw_metrics={metric: getattr(coin, metric) for metric, _ in metric_definitions},
-                metadata={**coin.metadata, "github_repo": coin.github_repo},
+                metadata={**coin.metadata, "github_repo": coin.github_repo, "latest_price": coin.latest_price, "market_cap_rank": coin.market_cap_rank, "reference_currency": coin.reference_currency},
                 rank=0,
             )
         )
@@ -93,3 +93,4 @@ def score_coins(coins: List[CoinMetrics], weights: WeightConfig) -> List[ScoredC
         entry.rank = position
 
     return scored
+

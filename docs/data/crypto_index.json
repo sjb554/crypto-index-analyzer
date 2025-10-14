@@ -1,0 +1,145 @@
+{
+  "generated_at": "2025-10-14T11:12:57.944739-07:00",
+  "currency": "USD",
+  "summary": {
+    "lines": [
+      "BNB (BNB) leads 30-day market-cap growth at 31.4%.",
+      "XRP (XRP) is still under pressure with -16.8% market-cap change.",
+      "Trading interest is strongest in BNB (BNB) with 133.2% volume acceleration.",
+      "Tether (USDT) shows the lowest 30-day volatility at 0.03%.",
+      "Developer momentum favours BNB (BNB) with 0.0 activity score."
+    ]
+  },
+  "top_assets": [
+    {
+      "rank": 1,
+      "id": "binancecoin",
+      "name": "BNB",
+      "symbol": "BNB",
+      "composite_score": 57.41,
+      "raw_metrics": {
+        "market_cap_growth": 0.31410731842089973,
+        "volume_trend": 1.332086952560097,
+        "volatility": 0.050905420632724706
+      },
+      "normalized_metrics": {
+        "developer_activity": 0.0,
+        "on_chain": 0.24136150597249117
+      },
+      "metadata": {
+        "market_cap": 169427665119.0,
+        "total_volume": 8858009074.0,
+        "price_change_percentage_30d": 31.58339112899941,
+        "last_updated": "2025-10-14T18:10:34.897Z",
+        "github_repo": "https://github.com/binance-exchange/binance-official-api-docs",
+        "latest_price": 1222.05,
+        "market_cap_rank": 4,
+        "reference_currency": "usd"
+      }
+    },
+    {
+      "rank": 2,
+      "id": "tether",
+      "name": "Tether",
+      "symbol": "USDT",
+      "composite_score": 44.75,
+      "raw_metrics": {
+        "market_cap_growth": 0.05756430822393515,
+        "volume_trend": 0.5453902316552166,
+        "volatility": 0.0003217302924176441
+      },
+      "normalized_metrics": {
+        "developer_activity": 0.0,
+        "on_chain": 1.0
+      },
+      "metadata": {
+        "market_cap": 180141829055.0,
+        "total_volume": 172544539753.0,
+        "price_change_percentage_30d": 0.015163452133036302,
+        "last_updated": "2025-10-14T18:10:40.469Z",
+        "github_repo": null,
+        "latest_price": 1.001,
+        "market_cap_rank": 3,
+        "reference_currency": "usd"
+      }
+    },
+    {
+      "rank": 3,
+      "id": "bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "composite_score": 39.25,
+      "raw_metrics": {
+        "market_cap_growth": -0.020527877635847274,
+        "volume_trend": 0.8318106200851813,
+        "volatility": 0.02191492325447565
+      },
+      "normalized_metrics": {
+        "developer_activity": 0.0,
+        "on_chain": 0.8734092687742048
+      },
+      "metadata": {
+        "market_cap": 2250297158592.0,
+        "total_volume": 81525606883.0,
+        "price_change_percentage_30d": -2.0367195176281037,
+        "last_updated": "2025-10-14T18:10:35.067Z",
+        "github_repo": "https://github.com/bitcoin/bitcoin",
+        "latest_price": 113172.0,
+        "market_cap_rank": 1,
+        "reference_currency": "usd"
+      }
+    },
+    {
+      "rank": 4,
+      "id": "ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "composite_score": 19.84,
+      "raw_metrics": {
+        "market_cap_growth": -0.10890384200285205,
+        "volume_trend": 0.45265156383192884,
+        "volatility": 0.04174542207377293
+      },
+      "normalized_metrics": {
+        "developer_activity": 0.0,
+        "on_chain": 1.0
+      },
+      "metadata": {
+        "market_cap": 495764952367.0,
+        "total_volume": 59572992523.0,
+        "price_change_percentage_30d": -10.276140591140614,
+        "last_updated": "2025-10-14T18:10:36.912Z",
+        "github_repo": "https://github.com/ethereum/go-ethereum",
+        "latest_price": 4122.59,
+        "market_cap_rank": 2,
+        "reference_currency": "usd"
+      }
+    },
+    {
+      "rank": 5,
+      "id": "ripple",
+      "name": "XRP",
+      "symbol": "XRP",
+      "composite_score": 3.73,
+      "raw_metrics": {
+        "market_cap_growth": -0.1680476952638192,
+        "volume_trend": 0.3121772878878653,
+        "volatility": 0.038324191703389535
+      },
+      "normalized_metrics": {
+        "developer_activity": 0.0,
+        "on_chain": 0.0
+      },
+      "metadata": {
+        "market_cap": 150319883571.0,
+        "total_volume": 8062630544.0,
+        "price_change_percentage_30d": -17.354203587474053,
+        "last_updated": "2025-10-14T18:10:35.690Z",
+        "github_repo": "https://github.com/ripple/rippled",
+        "latest_price": 2.51,
+        "market_cap_rank": 5,
+        "reference_currency": "usd"
+      }
+    }
+  ]
+}
