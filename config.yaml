@@ -6,6 +6,6 @@ weights:
   on_chain: 0.10
 settings:
   top_n: 10
-  coins_limit: 50
+  coins_limit: 40
   base_currency: usd
   days_for_trend: 30

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import os
+import random
 import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
@@ -343,3 +344,5 @@ def collect_metrics(config: AnalyzerConfig) -> List[CoinMetrics]:
         time.sleep(0.2)
 
     return metrics
+
+

@@ -3,7 +3,7 @@
 Python-based toolkit that ranks the leading cryptocurrencies each week using a composite score that blends market strength, liquidity trends, risk, developer traction, and on-chain fundamentals. The project is designed to run unattended via GitHub Actions, producing an updated Markdown report that highlights the 5 to 10 most investable assets.
 
 ## Key Features
-- Tracks the top 50 cryptocurrencies by market capitalisation using the CoinGecko API (optional key supported via `COINGECKO_API_KEY`).
+- Tracks the top 40 cryptocurrencies by market capitalisation using the CoinGecko API (optional key supported via `COINGECKO_API_KEY`).
 - Builds 30 day market-cap growth, trading volume trend, and daily-return volatility metrics for each coin.
 - Pulls GitHub repository telemetry (recent commits, stars, forks, watchers, open issues) to proxy developer activity.
 - Derives on-chain strength from circulating versus maximum supply data and total value locked where provided.
@@ -39,7 +39,7 @@ If CoinGecko rate limits your IP, set `COINGECKO_API_KEY` in your shell or repos
 Edit `config.yaml` to adjust metric weights, number of coins analysed, or reporting scope:
 - `weights`: must sum to 1.0; increase `developer_activity` to favour GitHub engagement or reduce `volatility` to penalise choppy assets.
 - `settings.top_n`: number of assets surfaced in the Markdown report (5-10 recommended).
-- `settings.coins_limit`: number of coins fetched from CoinGecko (defaults to 50).
+- `settings.coins_limit`: number of coins fetched from CoinGecko (defaults to 40).
 - `settings.days_for_trend`: lookback window for volume and volatility calculations (default 30).
 
 Changes take effect the next time you run the CLI or GitHub Actions workflow.
