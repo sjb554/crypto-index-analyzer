@@ -341,8 +341,9 @@ def collect_metrics(config: AnalyzerConfig) -> List[CoinMetrics]:
             )
         )
 
-        time.sleep(0.2)
+        time.sleep(random.uniform(2.0, 3.0))
 
     return metrics
+
 
 
