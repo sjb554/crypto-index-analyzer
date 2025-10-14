@@ -24,13 +24,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate crypto index report
+      - name: Generate crypto index assets
         env:
           PYTHONPATH: src
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python -m crypto_index_analyzer.run --output reports/crypto_index.md
+          python -m crypto_index_analyzer.run --config config.yaml --output reports/crypto_index.md
+
+      - name: Ensure .nojekyll
+        run: |
+          mkdir -p docs
+          touch docs/.nojekyll
 
       - name: Commit and push changes
         env:
@@ -39,8 +44,8 @@ jobs:
           if git status --porcelain | grep .; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add reports/crypto_index.md
-            git commit -m "chore: refresh crypto index report"
+            git add reports/crypto_index.md reports/crypto_index.json reports/crypto_index_history.csv docs/
+            git commit -m "chore: auto-update crypto rankings"
             git push
           else
             echo "No changes to commit"
