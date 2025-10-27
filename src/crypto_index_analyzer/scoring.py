@@ -60,11 +60,16 @@ def score_coins(coins: List[CoinMetrics], weights: WeightConfig) -> List[ScoredC
     }
 
     normalized_matrix: Dict[str, List[float]] = {}
+    availability: Dict[str, bool] = {}
     for metric, _ in metric_definitions:
         invert = metric == "volatility"
         normalized_matrix[metric] = _normalize(value_matrix[metric], invert=invert)
+        availability[metric] = any(isinstance(value, (int, float)) for value in value_matrix[metric])
 
     weight_map = weights.as_dict
+    available_weight = sum(weight_map[key] for metric, key in metric_definitions if availability[metric])
+    if available_weight <= 0:
+        available_weight = 1.0
     scored: List[ScoredCoin] = []
     for idx, coin in enumerate(coins):
         metric_scores = {
@@ -73,7 +78,10 @@ def score_coins(coins: List[CoinMetrics], weights: WeightConfig) -> List[ScoredC
         }
         composite = 0.0
         for metric, weight_key in metric_definitions:
-            composite += metric_scores[metric] * weight_map[weight_key]
+            if not availability[metric]:
+                continue
+            weight = weight_map[weight_key] / available_weight
+            composite += metric_scores[metric] * weight
 
         scored.append(
             ScoredCoin(

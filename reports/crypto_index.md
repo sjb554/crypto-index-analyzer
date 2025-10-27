@@ -1,18 +1,23 @@
 # Weekly Crypto Index
 
-Generated on **2025-10-14 18:12 UTC** using market data in USD.
+Generated on **2025-10-26 16:47 UTC** using market data in USD.
 
 Scores are weighted composites (0-100) derived from market cap growth, trading volume trends, volatility, developer activity, and on-chain fundamentals.
 
-## Top 5 Assets
+## Top 10 Assets
 
 | Rank | Name (Symbol) | Score | 30d Market Cap Change | Volume Trend | Volatility (sigma) | Dev Activity | On-Chain | GitHub |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | BNB (BNB) | 57.4 | 31.4% | 133.2% | 5.1% | 0.0 | 24.1 | https://github.com/binance-exchange/binance-official-api-docs |
-| 2 | Tether (USDT) | 44.8 | 5.8% | 54.5% | 0.0% | 0.0 | 100.0 | - |
-| 3 | Bitcoin (BTC) | 39.2 | -2.1% | 83.2% | 2.2% | 0.0 | 87.3 | https://github.com/bitcoin/bitcoin |
-| 4 | Ethereum (ETH) | 19.8 | -10.9% | 45.3% | 4.2% | 0.0 | 100.0 | https://github.com/ethereum/go-ethereum |
-| 5 | XRP (XRP) | 3.7 | -16.8% | 31.2% | 3.8% | 0.0 | 0.0 | https://github.com/ripple/rippled |
+| 1 | Zcash (ZEC) | 89.0 | 550.4% | 2.0% | 2.1% | 0.0 | 0.0 | - |
+| 2 | Hyperliquid (HYPE) | 59.1 | 9.4% | 9.8% | 1.1% | 0.0 | 0.0 | - |
+| 3 | Monero (XMR) | 54.2 | 20.0% | 5.1% | 0.7% | 0.0 | 0.0 | - |
+| 4 | Bitcoin Cash (BCH) | 51.4 | 2.1% | 3.9% | 0.7% | 0.0 | 0.0 | - |
+| 5 | BNB (BNB) | 50.4 | 20.1% | 2.0% | 0.7% | 0.0 | 0.0 | - |
+| 6 | XRP (XRP) | 49.6 | -3.0% | 2.7% | 0.6% | 0.0 | 0.0 | - |
+| 7 | WhiteBIT Coin (WBT) | 48.9 | 6.2% | 1.6% | 0.4% | 0.0 | 0.0 | - |
+| 8 | Solana (SOL) | 48.9 | 2.5% | 1.9% | 0.7% | 0.0 | 0.0 | - |
+| 9 | Wrapped Bitcoin (WBTC) | 48.5 | 4.2% | 1.4% | 0.5% | 0.0 | 0.0 | - |
+| 10 | Coinbase Wrapped BTC (CBBTC) | 48.4 | 4.3% | 1.3% | 0.4% | 0.0 | 0.0 | - |
 
 ## Notes
 

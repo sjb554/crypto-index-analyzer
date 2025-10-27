@@ -3,9 +3,10 @@ from __future__ import annotations
 import math
 import os
 import random
+import statistics
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 import requests
 
@@ -79,14 +80,20 @@ class CoinGeckoClient:
             raise last_error
         raise requests.HTTPError("Failed to fetch CoinGecko data")
 
-    def get_top_coins(self, *, limit: int, vs_currency: str) -> List[Dict[str, Any]]:
+    def get_top_coins(
+        self,
+        *,
+        limit: int,
+        vs_currency: str,
+        include_sparkline: bool = False,
+    ) -> List[Dict[str, Any]]:
         params = {
             "vs_currency": vs_currency,
             "order": "market_cap_desc",
             "per_page": limit,
             "page": 1,
             "price_change_percentage": "1h,24h,7d,30d",
-            "sparkline": "false",
+            "sparkline": "true" if include_sparkline else "false",
         }
         response = self._request("/coins/markets", params=params)
         return response.json()
@@ -267,11 +274,13 @@ def _compute_on_chain(details: Dict[str, Any]) -> Optional[float]:
 def collect_metrics(config: AnalyzerConfig) -> List[CoinMetrics]:
     gecko = CoinGeckoClient()
     github = GitHubClient()
+    light_mode = not bool(gecko.api_key)
 
     try:
         top_coins = gecko.get_top_coins(
             limit=config.settings.coins_limit,
             vs_currency=config.settings.base_currency,
+            include_sparkline=light_mode,
         )
     except requests.HTTPError as exc:
         status = exc.response.status_code if exc.response is not None else None
@@ -283,8 +292,29 @@ def collect_metrics(config: AnalyzerConfig) -> List[CoinMetrics]:
     except requests.RequestException as exc:
         raise DataSourceError("Failed to retrieve top coins from CoinGecko") from exc
 
+    if light_mode:
+        print(
+            "CoinGecko API key not detected; using light metrics (sparkline-derived volatility, no on-chain/dev activity)."
+        )
+        return _collect_metrics_light(top_coins, config)
+
+    return _collect_metrics_full(
+        top_coins,
+        config=config,
+        gecko=gecko,
+        github=github,
+    )
+
+
+def _collect_metrics_full(
+    coins: Iterable[Dict[str, Any]],
+    *,
+    config: AnalyzerConfig,
+    gecko: CoinGeckoClient,
+    github: GitHubClient,
+) -> List[CoinMetrics]:
     metrics: List[CoinMetrics] = []
-    for coin in top_coins:
+    for coin in coins:
         coin_id = coin.get("id")
         if not coin_id:
             continue
@@ -341,7 +371,89 @@ def collect_metrics(config: AnalyzerConfig) -> List[CoinMetrics]:
             )
         )
 
-        time.sleep(random.uniform(2.0, 3.0))
+        time.sleep(random.uniform(1.0, 2.0))
+
+    return metrics
+
+
+def _safe_percent(value: Any) -> Optional[float]:
+    if isinstance(value, (int, float)):
+        return float(value) / 100.0
+    return None
+
+
+def _sparkline_volatility(prices: List[float]) -> Optional[float]:
+    if not prices or len(prices) < 4:
+        return None
+    returns: List[float] = []
+    for idx in range(1, len(prices)):
+        prev = prices[idx - 1]
+        curr = prices[idx]
+        if prev:
+            returns.append((curr - prev) / prev)
+    if len(returns) < 2:
+        return None
+    try:
+        return float(statistics.stdev(returns))
+    except statistics.StatisticsError:
+        return None
+
+
+def _sparkline_trend(prices: List[float]) -> Optional[float]:
+    if not prices or len(prices) < 4:
+        return None
+    midpoint = len(prices) // 2
+    first = [p for p in prices[:midpoint] if isinstance(p, (int, float))]
+    second = [p for p in prices[midpoint:] if isinstance(p, (int, float))]
+    if not first or not second:
+        return None
+    first_avg = sum(first) / len(first)
+    second_avg = sum(second) / len(second)
+    if first_avg == 0:
+        return None
+    return (second_avg - first_avg) / first_avg
+
+
+def _collect_metrics_light(coins: Iterable[Dict[str, Any]], config: AnalyzerConfig) -> List[CoinMetrics]:
+    metrics: List[CoinMetrics] = []
+    for coin in coins:
+        coin_id = coin.get("id")
+        if not coin_id:
+            continue
+
+        sparkline = ((coin.get("sparkline_in_7d") or {}).get("price")) or []
+        volatility = _sparkline_volatility(sparkline)
+        price_trend = _sparkline_trend(sparkline)
+
+        market_cap = coin.get("market_cap") or 0
+        total_volume = coin.get("total_volume")
+        volume_ratio = None
+        if isinstance(market_cap, (int, float)) and market_cap > 0 and isinstance(total_volume, (int, float)):
+            volume_ratio = total_volume / market_cap
+
+        metrics.append(
+            CoinMetrics(
+                id=coin_id,
+                symbol=coin.get("symbol", "").upper(),
+                name=coin.get("name", coin_id),
+                market_cap_rank=coin.get("market_cap_rank") or 0,
+                latest_price=coin.get("current_price"),
+                market_cap_growth=_safe_percent(coin.get("price_change_percentage_30d_in_currency")),
+                volume_trend=price_trend if price_trend is not None else volume_ratio,
+                volatility=volatility,
+                developer_activity=None,
+                on_chain_metric=None,
+                github_repo=None,
+                reference_currency=config.settings.base_currency,
+                metadata={
+                    "market_cap": market_cap,
+                    "total_volume": total_volume,
+                    "price_change_percentage_30d": coin.get("price_change_percentage_30d_in_currency"),
+                    "mode": "light",
+                    "last_updated": coin.get("last_updated"),
+                },
+            )
+        )
 
     return metrics
 

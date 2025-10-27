@@ -1,89 +1,102 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
   <title>Crypto Index Analyzer</title>
   <style>
-    body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #0f172a; color: #e2e8f0; }
+    body { font-family: Arial, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; }
     header { background: #1e293b; padding: 2rem 1.5rem; text-align: center; }
-    header h1 { margin: 0 0 0.5rem 0; font-size: 2rem; }
     main { padding: 1.5rem; max-width: 1100px; margin: 0 auto; }
-    section { margin-bottom: 2rem; background: #1e293b; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4); overflow: hidden; }
-    section h2 { margin: 0; padding: 1rem 1.5rem; background: rgba(148, 163, 184, 0.1); font-size: 1.25rem; border-bottom: 1px solid rgba(148, 163, 184, 0.2); }
-    section .content { padding: 1.5rem; }
-    ul { padding-left: 1.25rem; }
+    section { background: #1e293b; margin-bottom: 2rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4); overflow: hidden; }
+    section h2 { margin: 0; padding: 1rem 1.5rem; background: rgba(148,163,184,0.1); border-bottom: 1px solid rgba(148,163,184,0.2); }
+    .content { padding: 1.5rem; }
     table { width: 100%; border-collapse: collapse; color: #e2e8f0; }
-    th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid rgba(148, 163, 184, 0.2); }
-    th { background: rgba(148, 163, 184, 0.12); font-weight: 600; }
-    tr:hover { background: rgba(148, 163, 184, 0.08); }
+    th, td { padding: 0.75rem; border-bottom: 1px solid rgba(148,163,184,0.2); text-align: left; }
+    th { background: rgba(148,163,184,0.12); font-weight: 600; }
+    tr:hover { background: rgba(148,163,184,0.08); }
     .muted { color: #94a3b8; font-size: 0.85rem; }
-    img.chart { display: block; max-width: 100%; height: auto; border-radius: 0 0 12px 12px; }
-    a { color: #38bdf8; }
+    figure { margin: 1rem 0; }
+    figure img { max-width: 100%; border-radius: 10px; }
     footer { text-align: center; padding: 2rem 1rem; color: #94a3b8; font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <header>
     <h1>Crypto Index Analyzer</h1>
-    <p>Updated 2025-10-14T11:12:57.944739-07:00 &bull; Market data in USD</p>
+    <p>Market data snapshot: 2025-10-26 16:47 UTC &bull; Currency: USD</p>
   </header>
   <main>
     <section>
-      <h2>Highlights</h2>
-      <div class="content">
-        <ul>
-          <li>BNB (BNB) leads 30-day market-cap growth at 31.4%.</li>
-<li>XRP (XRP) is still under pressure with -16.8% market-cap change.</li>
-<li>Trading interest is strongest in BNB (BNB) with 133.2% volume acceleration.</li>
-<li>Tether (USDT) shows the lowest 30-day volatility at 0.03%.</li>
-<li>Developer momentum favours BNB (BNB) with 0.0 activity score.</li>
-        </ul>
-      </div>
-    </section>
-    <section>
-      <h2>Top 5 Assets</h2>
-      <div class="content">
-        <div style="overflow-x:auto;">
+      <h2>Weekly Market Leaders</h2>
+      <div class='content'>
+        <div style='overflow-x:auto;'>
           <table>
             <thead>
               <tr>
                 <th>Rank</th>
                 <th>Asset</th>
                 <th>Score</th>
-                <th>Market Cap</th>
                 <th>30d Cap ?</th>
                 <th>Volume Trend</th>
                 <th>Volatility</th>
                 <th>Dev Activity</th>
-                <th>Total Volume</th>
-                <th>30d Price ?</th>
+                <th>On-Chain</th>
                 <th>GitHub</th>
               </tr>
             </thead>
             <tbody>
-              
-<tr><td>1</td><td>BNB <span class='muted'>(BNB)</span></td><td>57.4</td><td>USD 169.43B</td><td>31.4%</td><td>133.2%</td><td>5.09%</td><td>0.0</td><td>USD 8.86B</td><td>3158.3%</td><td><a href="https://github.com/binance-exchange/binance-official-api-docs" target="_blank" rel="noopener">Repo</a></td></tr>
-<tr><td>2</td><td>Tether <span class='muted'>(USDT)</span></td><td>44.8</td><td>USD 180.14B</td><td>5.8%</td><td>54.5%</td><td>0.03%</td><td>0.0</td><td>USD 172.54B</td><td>1.5%</td><td>-</td></tr>
-<tr><td>3</td><td>Bitcoin <span class='muted'>(BTC)</span></td><td>39.2</td><td>USD 2.25T</td><td>-2.1%</td><td>83.2%</td><td>2.19%</td><td>0.0</td><td>USD 81.53B</td><td>-203.7%</td><td><a href="https://github.com/bitcoin/bitcoin" target="_blank" rel="noopener">Repo</a></td></tr>
-<tr><td>4</td><td>Ethereum <span class='muted'>(ETH)</span></td><td>19.8</td><td>USD 495.76B</td><td>-10.9%</td><td>45.3%</td><td>4.17%</td><td>0.0</td><td>USD 59.57B</td><td>-1027.6%</td><td><a href="https://github.com/ethereum/go-ethereum" target="_blank" rel="noopener">Repo</a></td></tr>
-<tr><td>5</td><td>XRP <span class='muted'>(XRP)</span></td><td>3.7</td><td>USD 150.32B</td><td>-16.8%</td><td>31.2%</td><td>3.83%</td><td>0.0</td><td>USD 8.06B</td><td>-1735.4%</td><td><a href="https://github.com/ripple/rippled" target="_blank" rel="noopener">Repo</a></td></tr>
+              <tr><td>1</td><td>Zcash <span class='muted'>(ZEC)</span></td><td>89.0</td><td>550.4%</td><td>2.0%</td><td>2.12%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>2</td><td>Hyperliquid <span class='muted'>(HYPE)</span></td><td>59.1</td><td>9.4%</td><td>9.8%</td><td>1.13%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>3</td><td>Monero <span class='muted'>(XMR)</span></td><td>54.2</td><td>20.0%</td><td>5.1%</td><td>0.67%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>4</td><td>Bitcoin Cash <span class='muted'>(BCH)</span></td><td>51.4</td><td>2.1%</td><td>3.9%</td><td>0.70%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>5</td><td>BNB <span class='muted'>(BNB)</span></td><td>50.4</td><td>20.1%</td><td>2.0%</td><td>0.69%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>6</td><td>XRP <span class='muted'>(XRP)</span></td><td>49.6</td><td>-3.0%</td><td>2.7%</td><td>0.62%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>7</td><td>WhiteBIT Coin <span class='muted'>(WBT)</span></td><td>48.9</td><td>6.2%</td><td>1.6%</td><td>0.39%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>8</td><td>Solana <span class='muted'>(SOL)</span></td><td>48.9</td><td>2.5%</td><td>1.9%</td><td>0.69%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>9</td><td>Wrapped Bitcoin <span class='muted'>(WBTC)</span></td><td>48.5</td><td>4.2%</td><td>1.4%</td><td>0.47%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
+<tr><td>10</td><td>Coinbase Wrapped BTC <span class='muted'>(CBBTC)</span></td><td>48.4</td><td>4.3%</td><td>1.3%</td><td>0.45%</td><td>0.0%</td><td>0.0%</td><td>-</td></tr>
             </tbody>
           </table>
         </div>
-        <p style="margin-top:1rem;"><a href="data/crypto_index.json">Download the latest snapshot (JSON)</a></p>
       </div>
     </section>
     <section>
-      <h2>Composite Score Trend</h2>
-      <div class="content">
-        <img class="chart" src="assets/score_trend.png" alt="Composite score trend chart" />
-        <p class="muted">Top assets are tracked run-to-run; chart updates after each scheduled refresh.</p>
+      <h2>1-Month Outlook (Predictive)</h2>
+      <div class='content'>
+        <p class='muted'>Latest predictive run: N/A</p>
+        <div style='overflow-x:auto;'>
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Asset</th>
+                <th>p(up)</th>
+                <th>Expected Return</th>
+                <th>Risk (vol)</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan='6'>Predictive models not available. Run training first.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Predictive models not available.</p>
+        <div class='chart-grid'>
+          
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Market Score Trend</h2>
+      <div class='content'>
+        <img src='assets/score_trend.png' alt='Composite score trend' style='max-width:100%; border-radius: 10px;'>
       </div>
     </section>
   </main>
   <footer>
-    <p>Data sources: CoinGecko (market/volume/on-chain) and GitHub REST API (developer activity). Automation runs weekly via GitHub Actions.</p>
+    <p>Data sources: CoinGecko &middot; GitHub REST API &middot; Models retrained as needed.</p>
   </footer>
 </body>
 </html>
