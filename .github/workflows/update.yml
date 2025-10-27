@@ -2,7 +2,7 @@ name: Update Crypto Index
 
 on:
   schedule:
-    - cron: "0 12 * * *"
+    - cron: "0 12 * * 1"
   workflow_dispatch:
 
 jobs:
